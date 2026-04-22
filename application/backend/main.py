@@ -153,12 +153,9 @@ async def predict(user_input: UserInput):
         'plant_category': user_input.plant_category,
     }])
 
-    # Terapkan preprocessing pipeline (SAMA PERSIS dengan notebook)
-    processed_data = preprocessor.transform(data)
-
-    # Prediksi dengan model yang sudah dilatih
-    prediction = model.predict(processed_data)
-    prediction_proba = model.predict_proba(processed_data)[0]
+    # Langsung prediksi - model berupa Pipeline yang sudah包含 preprocessing
+    prediction = model.predict(data)
+    prediction_proba = model.predict_proba(data)[0]
 
     label = "Gagal Tumbuh" if prediction[0] == 1 else "Dapat Tumbuh"
 
