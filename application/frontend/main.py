@@ -4,22 +4,7 @@ import streamlit as st
 import pandas as pd
 
 
-def resolve_backend_url() -> str:
-    env_url = os.getenv("BACKEND_URL")
-    if env_url:
-        return env_url
-
-    try:
-        secret_url = st.secrets.get("BACKEND_URL")
-        if secret_url:
-            return secret_url
-    except Exception:
-        pass
-
-    return "http://localhost:8000"
-
-
-BACKEND_URL = resolve_backend_url()
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 PREDICT_ENDPOINT = f"{BACKEND_URL.rstrip('/')}/predict/"
 
 
@@ -403,13 +388,6 @@ with st.sidebar:
         </p>
     </div>
     """, unsafe_allow_html=True)
-
-    st.markdown("### 🔌 Backend API")
-    st.code(BACKEND_URL)
-    if "localhost" in BACKEND_URL or "127.0.0.1" in BACKEND_URL:
-        st.warning("Untuk deploy publik, ganti BACKEND_URL ke endpoint backend online.")
-    else:
-        st.success("Backend URL sudah siap untuk akses publik.")
     
     st.markdown("---")
     st.markdown("""
