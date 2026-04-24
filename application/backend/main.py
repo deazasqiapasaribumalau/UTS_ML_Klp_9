@@ -2,6 +2,7 @@ import joblib
 import uvicorn
 import numpy as np
 import pandas as pd
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -27,8 +28,11 @@ app.add_middleware(
 # ============================================================
 # Load model dan preprocessor yang sudah dilatih
 # ============================================================
-model = joblib.load('../../model/model.pkl')
-preprocessor = joblib.load('../../model/preprocessor.pkl')
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_DIR = BASE_DIR.parent.parent / "model"
+
+model = joblib.load(MODEL_DIR / "model.pkl")
+preprocessor = joblib.load(MODEL_DIR / "preprocessor.pkl")
 
 # ============================================================
 # Definisi kolom fitur (HARUS SAMA dengan notebook)
